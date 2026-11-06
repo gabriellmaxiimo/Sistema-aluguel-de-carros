@@ -1,0 +1,47 @@
+@startuml casos-de-uso
+!pragma layout smetana
+title Sistema de Aluguel de Carros - Diagrama de Casos de Uso (v1)
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Usuário" as Usuario
+actor "Cliente" as Cliente
+actor "Agente" as Agente
+actor "Empresa" as Empresa
+actor "Banco" as Banco
+
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Agente <|-- Empresa
+Agente <|-- Banco
+
+rectangle "Sistema de Aluguel de Carros" {
+  usecase "UC01 - Realizar login" as UC01
+  usecase "UC02 - Cadastrar-se como cliente" as UC02
+  usecase "UC03 - Gerenciar cadastro de cliente\n(consultar, alterar, excluir)" as UC03
+  usecase "UC04 - Introduzir pedido de aluguel" as UC04
+  usecase "UC05 - Modificar pedido" as UC05
+  usecase "UC06 - Consultar pedidos e status" as UC06
+  usecase "UC07 - Cancelar pedido" as UC07
+  usecase "UC08 - Avaliar pedido\n(análise financeira)" as UC08
+  usecase "UC09 - Executar contrato" as UC09
+  usecase "UC10 - Conceder contrato de crédito" as UC10
+  usecase "UC11 - Cadastrar automóvel" as UC11
+}
+
+Usuario --> UC01
+Cliente --> UC02
+Cliente --> UC03
+Cliente --> UC04
+Cliente --> UC05
+Cliente --> UC06
+Cliente --> UC07
+Agente --> UC03
+Agente --> UC05
+Agente --> UC06
+Agente --> UC08
+Agente --> UC09
+Agente --> UC11
+Banco --> UC10
+UC10 .> UC09 : <<extend>>
+@enduml

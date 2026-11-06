@@ -1,0 +1,121 @@
+@startuml classes
+!pragma layout smetana
+title Sistema de Aluguel de Carros - Diagrama de Classes (v1)
+skinparam classAttributeIconSize 0
+hide empty methods
+
+package model {
+  abstract class Usuario {
+    - id : Long
+    - login : String
+    - senha : String
+    - nome : String
+    + {abstract} getPerfil() : Perfil
+  }
+
+  class Cliente {
+    - rg : String
+    - cpf : String
+    - endereco : String
+    - profissao : String
+  }
+
+  class Rendimento {
+    - id : Long
+    - entidadeEmpregadora : String
+    - valor : BigDecimal
+  }
+
+  class Agente {
+    - cnpj : String
+    - tipo : TipoAgente
+  }
+
+  class Automovel {
+    - id : Long
+    - matricula : String
+    - ano : Integer
+    - marca : String
+    - modelo : String
+    - placa : String
+  }
+
+  class PedidoAluguel {
+    - id : Long
+    - dataInicio : LocalDate
+    - dataFim : LocalDate
+    - status : StatusPedido
+    - parecer : String
+    - criadoEm : LocalDateTime
+  }
+
+  class Contrato {
+    - id : Long
+    - tipoPropriedade : TipoPropriedade
+    - dataAssinatura : LocalDate
+  }
+
+  class ContratoCredito {
+    - id : Long
+    - valor : BigDecimal
+    - taxaJuros : BigDecimal
+    - numeroParcelas : Integer
+  }
+
+  enum Perfil { CLIENTE\nAGENTE }
+  enum TipoAgente { EMPRESA\nBANCO }
+  enum StatusPedido { PENDENTE\nAPROVADO\nREPROVADO\nCANCELADO\nCONTRATADO }
+  enum TipoPropriedade { CLIENTE\nEMPRESA\nBANCO }
+}
+
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Cliente "1" *-- "0..3" Rendimento : rendimentos
+PedidoAluguel "*" --> "1" Cliente : cliente
+PedidoAluguel "*" --> "1" Automovel : automovel
+PedidoAluguel "*" --> "0..1" Agente : agenteAvaliador
+PedidoAluguel "1" *-- "0..1" Contrato : contrato
+Contrato "1" *-- "0..1" ContratoCredito : contratoCredito
+ContratoCredito "*" --> "1" Agente : banco
+
+package service {
+  class UsuarioService {
+    + loadUserByUsername(login) : UserDetails
+    + atual(principal) : Usuario
+  }
+  class ClienteService {
+    + criar(req) : Cliente
+    + listar() : List<Cliente>
+    + buscar(id, solicitante) : Cliente
+    + atualizar(id, req, solicitante) : Cliente
+    + excluir(id, solicitante)
+  }
+  class AutomovelService {
+    + listar() : List<Automovel>
+    + criar(automovel) : Automovel
+  }
+  class PedidoService {
+    + criar(cliente, req) : PedidoAluguel
+    + listar(usuario) : List<PedidoAluguel>
+    + buscar(id, usuario) : PedidoAluguel
+    + modificar(id, req, usuario) : PedidoAluguel
+    + cancelar(id, cliente) : PedidoAluguel
+    + avaliar(id, req, agente) : PedidoAluguel
+    + executarContrato(id, req, agente) : PedidoAluguel
+  }
+}
+
+package controller {
+  class AuthController
+  class ClienteController
+  class AutomovelController
+  class PedidoController
+}
+
+AuthController ..> UsuarioService
+ClienteController ..> ClienteService
+AutomovelController ..> AutomovelService
+PedidoController ..> PedidoService
+PedidoService ..> PedidoAluguel
+ClienteService ..> Cliente
+@enduml
