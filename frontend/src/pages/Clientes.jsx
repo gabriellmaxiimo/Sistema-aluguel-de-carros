@@ -24,9 +24,9 @@ export default function Clientes() {
       {erro && <p className="erro">{erro}</p>}
       {novo || editando
         ? <><ClienteForm key={editando?.id ?? 'novo'} cliente={editando} onSalvo={salvo} />
-            <button onClick={() => { setEditando(null); setNovo(false) }}>Fechar</button></>
+            <button type="button" onClick={() => { setEditando(null); setNovo(false) }}>Fechar</button></>
         : <button onClick={() => setNovo(true)}>+ Novo cliente</button>}
-      <table>
+      <div className="tabela"><table>
         <thead><tr><th>Nome</th><th>CPF</th><th>RG</th><th>Profissão</th><th>Rendimentos</th><th>Ações</th></tr></thead>
         <tbody>
           {clientes.map(c => (
@@ -38,7 +38,7 @@ export default function Clientes() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </>
   )
 }

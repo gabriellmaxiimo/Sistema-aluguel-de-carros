@@ -14,6 +14,7 @@ export default function Login({ onLogin, onCadastro }) {
   return (
     <div className="container login">
       <h1>🚗 Aluguel de Carros</h1>
+      <p className="sub">Entre para gerenciar seus pedidos de aluguel</p>
       <form onSubmit={entrar} className="card">
         <label>Usuário<input required value={form.login} onChange={e => setForm({ ...form, login: e.target.value })} /></label>
         <label>Senha<input required type="password" value={form.senha} onChange={e => setForm({ ...form, senha: e.target.value })} /></label>

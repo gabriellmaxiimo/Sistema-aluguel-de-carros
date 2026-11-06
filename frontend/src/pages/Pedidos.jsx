@@ -61,7 +61,7 @@ export default function Pedidos({ usuario }) {
       {acao?.tipo === 'contrato' && <ContratoForm pedido={acao.pedido} banco={banco} onFechar={() => setAcao(null)}
         onEnviar={body => executar(() => api(`/api/pedidos/${acao.pedido.id}/contrato`, { method: 'POST', body })).then(ok => ok && setAcao(null))} />}
 
-      <table>
+      <div className="tabela"><table>
         <thead><tr><th>#</th>{agente && <th>Cliente</th>}<th>Automóvel</th><th>Período</th><th>Status</th><th>Parecer / Contrato</th><th>Ações</th></tr></thead>
         <tbody>
           {pedidos.length === 0 && <tr><td colSpan="7">Nenhum pedido.</td></tr>}
@@ -87,7 +87,7 @@ export default function Pedidos({ usuario }) {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </>
   )
 }
@@ -101,7 +101,7 @@ function Avaliacao({ pedido, onEnviar, onFechar }) {
       <div className="linha">
         <button onClick={() => onEnviar({ aprovado: true, parecer })}>Parecer positivo</button>
         <button className="perigo" onClick={() => onEnviar({ aprovado: false, parecer })}>Reprovar</button>
-        <button onClick={onFechar}>Fechar</button>
+        <button type="button" onClick={onFechar}>Fechar</button>
       </div>
     </div>
   )

@@ -28,12 +28,12 @@ export default function Automoveis({ usuario }) {
           <button type="submit">Cadastrar</button>
         </form>}
       {erro && <p className="erro">{erro}</p>}
-      <table>
+      <div className="tabela"><table>
         <thead><tr><th>Matrícula</th><th>Ano</th><th>Marca</th><th>Modelo</th><th>Placa</th></tr></thead>
         <tbody>{automoveis.map(a =>
           <tr key={a.id}><td>{a.matricula}</td><td>{a.ano}</td><td>{a.marca}</td><td>{a.modelo}</td><td>{a.placa}</td></tr>)}
         </tbody>
-      </table>
+      </table></div>
     </>
   )
 }
